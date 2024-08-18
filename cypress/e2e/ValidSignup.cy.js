@@ -11,7 +11,7 @@ it('Check Valid signup on first page with enter', () => {
     cy.get('[data-testid="ds-letter-casing-feedback"] > .sc-kBRoID > [data-testid="ds-alert-brand-check-icon ds-check-circle-icon"] > path')
     cy.get('.sc-RYuTI').click()
     cy.get('[data-testid="email-sign-up"]').click()
-    cy.get('[data-testid="registration-email-subtext-container"]').should('not.exist')
+    cy.url().should('include', '/personal-info')
 })
 
 it('Check Valid signup on first page with clicking button', () => {
@@ -27,5 +27,5 @@ it('Check Valid signup on first page with clicking button', () => {
     cy.get('[data-testid="ds-letter-casing-feedback"] > .sc-kBRoID > [data-testid="ds-alert-brand-check-icon ds-check-circle-icon"] > path')
     cy.get('.sc-RYuTI').click()
     cy.get('[data-testid="email-sign-up"]').click()
-    cy.get('[data-testid="registration-email-subtext-container"]').should('not.exist')
+    cy.url().should('include', '/personal-info')
 })
