@@ -32,6 +32,7 @@ describe('password error checking', () => {
         cy.get('[data-testid="ds-minimum-length-feedback"] > [data-testid="ds-default-feedback-icon"]')
         cy.get('.sc-RYuTI').click()
         cy.get('[data-testid="ds-minimum-length-feedback"] > .sc-kBRoID > [data-testid="ds-alert-error-icon ds-exclamation-circle-icon"]')
+        cy.get('[data-testid="email-sign-up"]').should('not.have.class', 'active')
     })
     it('password that does not have a special character', () => {
         cy.visit("business-signup")
@@ -40,6 +41,7 @@ describe('password error checking', () => {
         cy.get('[data-testid="ds-symbol-feedback"] > [data-testid="ds-default-feedback-icon"]')
         cy.get('.sc-RYuTI').click()
         cy.get('[data-testid="ds-symbol-feedback"] > .sc-kBRoID > [data-testid="ds-alert-error-icon ds-exclamation-circle-icon"]')
+        cy.get('[data-testid="email-sign-up"]').should('not.have.class', 'active')
     })
     it('password that does not have a lowercase', () => {
         cy.visit("business-signup")
@@ -48,6 +50,7 @@ describe('password error checking', () => {
         cy.get('[data-testid="ds-letter-casing-feedback"] > [data-testid="ds-default-feedback-icon"]')
         cy.get('.sc-RYuTI').click()
         cy.get('[data-testid="ds-letter-casing-feedback"] > .sc-kBRoID > [data-testid="ds-alert-error-icon ds-exclamation-circle-icon"]')
+        cy.get('[data-testid="email-sign-up"]').should('not.have.class', 'active')
     })
     it('password that does not have an uppercase', () => {
         cy.visit("business-signup")
@@ -56,6 +59,7 @@ describe('password error checking', () => {
         cy.get('[data-testid="ds-letter-casing-feedback"] > [data-testid="ds-default-feedback-icon"]')
         cy.get('.sc-RYuTI').click()
         cy.get('[data-testid="ds-letter-casing-feedback"] > .sc-kBRoID > [data-testid="ds-alert-error-icon ds-exclamation-circle-icon"]')
+        cy.get('[data-testid="email-sign-up"]').should('not.have.class', 'active')
     })
     it('password that does not have a number', () => {
         cy.visit("business-signup")
@@ -64,6 +68,7 @@ describe('password error checking', () => {
         cy.get('[data-testid="ds-numeric-feedback"] > [data-testid="ds-default-feedback-icon"]')
         cy.get('.sc-RYuTI').click()
         cy.get('[data-testid="ds-numeric-feedback"] > .sc-kBRoID > [data-testid="ds-alert-error-icon ds-exclamation-circle-icon"]')
+        cy.get('[data-testid="email-sign-up"]').should('not.have.class', 'active')
     })
     it('password that does not have a number or symbol', () => {
         cy.visit("business-signup")
@@ -74,6 +79,7 @@ describe('password error checking', () => {
         cy.get('.sc-RYuTI').click()
         cy.get('[data-testid="ds-numeric-feedback"] > .sc-kBRoID > [data-testid="ds-alert-error-icon ds-exclamation-circle-icon"]')
         cy.get('[data-testid="ds-symbol-feedback"] > .sc-kBRoID > [data-testid="ds-alert-error-icon ds-exclamation-circle-icon"]')
+        cy.get('[data-testid="email-sign-up"]').should('not.have.class', 'active')
     })
 
     it('password that is only lowercase and too short', () => {
@@ -90,7 +96,36 @@ describe('password error checking', () => {
         cy.get('[data-testid="ds-letter-casing-feedback"] > .sc-kBRoID > [data-testid="ds-alert-error-icon ds-exclamation-circle-icon"]')
         cy.get('[data-testid="ds-numeric-feedback"] > .sc-kBRoID > [data-testid="ds-alert-error-icon ds-exclamation-circle-icon"]')
         cy.get('[data-testid="ds-symbol-feedback"] > .sc-kBRoID > [data-testid="ds-alert-error-icon ds-exclamation-circle-icon"]')
-
+        cy.get('[data-testid="email-sign-up"]').should('not.have.class', 'active')
     })
+})
 
+describe('checking unable to press sign up button when stuff is invalid', () => {
+    it('invalid Email address will make the button disappear after one click', () => {
+        cy.visit("business-signup")
+        cy.get('[data-testid="registration-email"]').type('h{Enter}')
+        cy.get('[data-testid="registration-password"]').type('Hell0Wor!d')
+        cy.get('.sc-RYuTI').click()
+        cy.get('[data-testid="email-sign-up"]').click()
+        cy.get('[data-testid="email-sign-up"]').should('not.have.class', 'active')
+    
+    })
+    it('empty email address', () => {
+        cy.visit("business-signup")
+        cy.get('[data-testid="registration-email"]').type('h{Enter}')
+        cy.get('[data-testid="registration-password"]').type('Hell0Wor!d')
+        cy.get('.sc-RYuTI').click()
+        cy.get('[data-testid="registration-email"]').clear()
+        cy.get('[data-testid="email-sign-up"]').should('not.have.class', 'active')
+    
+    })
+    it('unchecked t&cs', () => {
+        cy.visit("business-signup")
+        cy.get('[data-testid="registration-email"]').type('h{Enter}')
+        cy.get('[data-testid="registration-password"]').type('Hell0Wor!d')
+        cy.get('[data-testid="registration-email"]').type('ello')
+        cy.get('[data-testid="email-sign-up"]').should('not.have.class', 'active')
+    })
+    // Note, invalid password done above - decided it would be easier to have it test for that
+    // with all possible invalidations of passwords
 })
